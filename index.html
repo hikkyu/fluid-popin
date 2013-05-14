@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Fluid Popin</title>
+	<link rel="stylesheet" href="css/normalize.css" type="text/css">
+	<link rel="stylesheet" href="css/fluid-popin.css" type="text/css">
+</head>
+<body>
+
+	<a href="#popin" class="fpopin">Popin</a>
+
+	<div class="fp-fog" id="fp-fog">
+		<div id="popin" class="fp-modalwrapper">
+			<div class="fp-modal">
+				content
+			</div>
+		</div>
+	</div>
+
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.9.1.min.js"><\/script>')</script>
+
+	<script src="js/fluid-popin.js"></script>
+
+	<script type="text/javascript">
+		$(document).ready(function(){
+			$(".fpopin").fluidPopin();
+		});
+	</script>
+
+</body>
+</html>
