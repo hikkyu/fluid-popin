@@ -4,18 +4,60 @@
 	<title>Fluid Popin</title>
 	<link rel="stylesheet" href="css/normalize.css" type="text/css">
 	<link rel="stylesheet" href="css/fluid-popin.css" type="text/css">
+	<link rel="stylesheet" href="css/demo.css" type="text/css">
 </head>
 <body>
 
-	<a href="#popin" class="fpopin">Popin</a>
+	<a href="#popin1" class="fpopin">Popin</a>
+	<a href="#popin2" class="fpopin">Popin</a>
+	<a href="#popin3" class="fpopin">Popin</a>
+	<a href="#popin4" class="fpopin">Popin</a>
 
-	<div class="fp-fog" id="fp-fog">
-		<div id="popin" class="fp-modalwrapper">
-			<div class="fp-modal">
-				<span class="fp-close">X</span>
-				content
+	<div class="fp-fog">
+		<div class="fp-fog-inner">
+			<div id="popin1" class="fp-modalwrapper">
+				<div class="fp-modal">
+					<span class="fp-close">X</span>
+					<div style="height: 8000px;">content 1</div>
+				</div>
+			</div>
+
+			<div id="popin2" class="fp-modalwrapper">
+				<div class="fp-modal">
+					<span class="fp-close">X</span>
+					content 2
+				</div>
+			</div>
+
+			<div id="popin3" class="fp-modalwrapper">
+				<div class="fp-modal">
+					<span class="fp-close">X</span>
+					content 3
+				</div>
+			</div>
+
+			<div id="popin4" class="fp-modalwrapper">
+				<div class="fp-modal">
+					<span class="fp-close">X</span>
+					content 4
+				</div>
 			</div>
 		</div>
+	</div>
+
+	<div class="row">
+		<div class="cell">
+			<a href="#popin11" class="fpopin">Popin</a>
+			<div class="fp-fog">
+				<div id="popin11" class="fp-modalwrapper">
+					<div class="fp-modal">
+						<span class="fp-close">X</span>
+						content 11
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="cell"></div>
 	</div>
 
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
@@ -25,7 +67,9 @@
 
 	<script type="text/javascript">
 		$(document).ready(function(){
-			$(".fpopin").fluidPopin();
+			$(".fpopin").fluidPopin({
+				hashControl: false
+			});
 		});
 	</script>
 

@@ -2,8 +2,36 @@
 
 	var pluginName = "fluidPopin",
 		defaults = {
-			propertyName: "value"
+			fogSelector: ".fp-fog",
+			modalWrapperSelector: ".fp-modal",
+			closerSelector: ".fp-close",
+			hashControl: false
+		},
+		elements = $(),
+		errors = {
+			noFog: pluginName + ': You need a fog to use this script'
+		},
+		onLoad = function(){
+			if(window.location.hash){
+				openFromHash(window.location.hash);
+			}
+		},
+		openFromHash = function(hash){
+			var inst = window[pluginName].getInstanceByHash(hash);
+			if(inst && typeof inst.open == 'function' && inst.options.hashControl){
+				inst.open();
+			}
+		},
+		onHashChange = function(){
+			if(window.location.hash){
+				openFromHash(window.location.hash);
+			}else{
+				window[pluginName].closeAll();
+			}
 		};
+
+
+	window[pluginName] = {};
 
 	function Plugin ( element, options ) {
 		this.element = $(element);
@@ -15,24 +43,38 @@
 
 	Plugin.prototype = {
 		init: function () {
+			this.elementHref = this.element.attr('href');
+
 			this._setElements();
 			this._setEvents();
+			this.isOpen = false;
 		},
 		_setElements: function(){
-			this.fog = $('#fp-fog');
-			this.modalWrapper = $(this.element.attr('href'));
-			this.modal = this.modalWrapper.find('.fp-modal');
+			//TODO make it flexible
+			this.modalWrapper = $(this.elementHref);
+			this.modal = this.modalWrapper.find(this.options.modalWrapperSelector);
+			this.closer = this.modal.find(this.options.closerSelector);
 
-			this.closer = this.modal.find('.fp-close');
+			this.fog = this.modalWrapper.closest(this.options.fogSelector);
+			if(!this.fog.length) throw new Error(errors.noFog);
+
+			var attachedInstances = this.fog.data("plugin_" + pluginName + "_attachedInstances");
+			if(!attachedInstances) attachedInstances = [];
+			$.data( this.fog[0], "plugin_" + pluginName + "_attachedInstances", attachedInstances.concat(this) );
+
+			this.fogParent = this.fog.parent();
+//			if(this.fogParent[0].tagName == 'BODY') this.fogParent = $(window);
 		},
 		_setEvents: function () {
-			this.element.bind('click', $.proxy(this._linkClickEvent, this));
+			this.element.on('click.'+pluginName, $.proxy(this._linkClickEvent, this));
+			this.modalWrapper.on('click.'+pluginName, $.proxy(this._fogClickEvent, this));
+			this.modal.on('click.'+pluginName, $.proxy(this._modalClickEvent, this));
+			this.closer.on('click.'+pluginName, $.proxy(this._closerClickEvent, this));
 
-			this.fog.bind('click', $.proxy(this._fogClickEvent, this));
-			this.modalWrapper.bind('click', $.proxy(this._fogClickEvent, this));
-			this.modal.bind('click', $.proxy(this._modalClickEvent, this));
-
-			this.closer.bind('click', $.proxy(this._closerClickEvent, this));
+			var events = $._data( this.fog[0], "events");
+			if(!events || events.click === undefined){
+				this.fog.on('click.'+pluginName, $.proxy(this._fogClickEvent, this));
+			}
 		},
 		_linkClickEvent: function(e){
 			e.preventDefault();
@@ -40,7 +82,12 @@
 		},
 		_fogClickEvent: function(e){
 			e.preventDefault();
-			this.close();
+			var inst = this.fog.data("plugin_" + pluginName + "_attachedInstances");
+			for (var i = 0, l = inst.length; i < l; i++) {
+				if(inst[i] && inst[i].isOpen && typeof inst[i].close == 'function'){
+					inst[i].close();
+				}
+			}
 		},
 		_closerClickEvent: function(e){
 			e.preventDefault();
@@ -49,20 +96,75 @@
 		_modalClickEvent: function(e){
 			e.stopPropagation();
 		},
+		_setHash: function(){
+			window.location.hash = this.elementHref;
+		},
+		_removeHash: function(){
+			window.location.hash = '';
+		},
+		_cancelScroll: function(e){
+			e.preventDefault();
+		},
 		open: function(){
 			this.fog.addClass('show');
 			this.modalWrapper.addClass('show');
+			if(this.options.hashControl){
+				this._setHash();
+			}
+			this.isOpen = true;
+
+			this.fogParent.on('scroll.'+pluginName, $.proxy(this._cancelScroll, this));
 		},
 		close: function(){
 			this.fog.removeClass('show');
 			this.modalWrapper.removeClass('show');
+			if(this.options.hashControl){
+				this._removeHash();
+			}
+			this.isOpen = false;
+
+			this.fogParent.off('scroll.'+pluginName);
+
 		}
 	};
+
+	/**
+	 * Get instance of popin by hash, when it used with anchor
+	 * @param hash
+	 * @return {Object}
+	 */
+	window[pluginName].getInstanceByHash = function(hash){
+		if(!hash || typeof hash != 'string') return true;
+
+		if(hash[0] != '#'){
+			hash = '#' + hash;
+		}
+
+		return elements.filter('[href="' + hash + '"]').data('plugin_'+pluginName);
+	};
+
+	/**
+	 * Close All instance
+	 */
+	window[pluginName].closeAll = function(){
+		for (var i = 0, l = elements.length; i < l; i++) {
+			var inst = elements.eq(i).data('plugin_'+pluginName);
+			if(inst.isOpen){
+				inst.close();
+			}
+		}
+	};
+
+	$(window).bind({
+		'load': onLoad,
+		'hashchange': onHashChange
+	});
 
 	$.fn[ pluginName ] = function ( options ) {
 		return this.each(function() {
 			if ( !$.data( this, "plugin_" + pluginName ) ) {
-					$.data( this, "plugin_" + pluginName, new Plugin( this, options ) );
+				$.data( this, "plugin_" + pluginName, new Plugin( this, options ) );
+				elements.push(this);
 			}
 		});
 	};

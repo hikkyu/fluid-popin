@@ -1,0 +1,15 @@
+.row{
+    overflow: hidden;
+}
+
+.cell{
+    float: left;
+    width: 50%;
+    height: 800px;
+    position: relative;
+}
+
+.cell .fp-fog{
+    position: absolute;
+    z-index: 88888;
+}
