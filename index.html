@@ -8,70 +8,79 @@
 </head>
 <body>
 
-	<a href="#popin1" class="fpopin">Popin</a>
-	<a href="#popin2" class="fpopin">Popin</a>
-	<a href="#popin3" class="fpopin">Popin</a>
-	<a href="#popin4" class="fpopin">Popin</a>
+<a href="#popin1" class="fpopin">Popin</a>
+<a href="#popin2" class="fpopin">Popin</a>
+<a href="#popin3" class="fpopin">Popin</a>
+<a href="#popin4" class="fpopin">Popin</a>
+<a href="#popin113" class="fpopin">Popin Sans Fog</a>
 
-	<div class="fp-fog">
-		<div class="fp-fog-inner">
-			<div id="popin1" class="fp-modalwrapper">
+<div id="popin113" class="fp-modalwrapper">
+	<div class="fp-modal">
+		<span class="fp-close">X</span>
+
+		<div>content 1</div>
+	</div>
+</div>
+
+<div class="fp-fog">
+	<div id="popin1" class="fp-modalwrapper">
+		<div class="fp-modal">
+			<span class="fp-close">X</span>
+
+			<div style="height: 8000px;">content 1</div>
+		</div>
+	</div>
+
+	<div id="popin2" class="fp-modalwrapper">
+		<div class="fp-modal">
+			<span class="fp-close">X</span>
+			<div>content 2</div>
+		</div>
+	</div>
+
+	<div id="popin3" class="fp-modalwrapper">
+		<div class="fp-modal">
+			<span class="fp-close">X</span>
+			<div>content 3</div>
+		</div>
+	</div>
+
+	<div id="popin4" class="fp-modalwrapper">
+		<div class="fp-modal">
+			<span class="fp-close">X</span>
+			<div>content 4</div>
+		</div>
+	</div>
+</div>
+
+<div class="row">
+	<div class="cell">
+		<a href="#popin11" class="fpopin">Popin</a>
+
+		<div class="fp-fog">
+			<div id="popin11" class="fp-modalwrapper">
 				<div class="fp-modal">
 					<span class="fp-close">X</span>
-					<div style="height: 8000px;">content 1</div>
-				</div>
-			</div>
-
-			<div id="popin2" class="fp-modalwrapper">
-				<div class="fp-modal">
-					<span class="fp-close">X</span>
-					content 2
-				</div>
-			</div>
-
-			<div id="popin3" class="fp-modalwrapper">
-				<div class="fp-modal">
-					<span class="fp-close">X</span>
-					content 3
-				</div>
-			</div>
-
-			<div id="popin4" class="fp-modalwrapper">
-				<div class="fp-modal">
-					<span class="fp-close">X</span>
-					content 4
+					<div>content 11</div>
 				</div>
 			</div>
 		</div>
 	</div>
+	<div class="cell"></div>
+</div>
 
-	<div class="row">
-		<div class="cell">
-			<a href="#popin11" class="fpopin">Popin</a>
-			<div class="fp-fog">
-				<div id="popin11" class="fp-modalwrapper">
-					<div class="fp-modal">
-						<span class="fp-close">X</span>
-						content 11
-					</div>
-				</div>
-			</div>
-		</div>
-		<div class="cell"></div>
-	</div>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="js/vendor/jquery-1.9.1.min.js"><\/script>')</script>
 
-	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-    <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.9.1.min.js"><\/script>')</script>
+<script src="js/fluid-popin.js"></script>
 
-	<script src="js/fluid-popin.js"></script>
-
-	<script type="text/javascript">
-		$(document).ready(function(){
-			$(".fpopin").fluidPopin({
-				hashControl: false
-			});
+<script type="text/javascript">
+	$(document).ready(function () {
+		$(".fpopin").fluidPopin({
+			hashControl: false
 		});
-	</script>
+	});
+</script>
 
 </body>
 </html>

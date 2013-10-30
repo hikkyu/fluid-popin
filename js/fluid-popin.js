@@ -5,7 +5,8 @@
 			fogSelector: ".fp-fog",
 			modalWrapperSelector: ".fp-modal",
 			closerSelector: ".fp-close",
-			hashControl: false
+			hashControl: false,
+			fogTemplate: '<div class="fp-fog"></div>'
 		},
 		elements = $(),
 		errors = {
@@ -56,14 +57,25 @@
 			this.closer = this.modal.find(this.options.closerSelector);
 
 			this.fog = this.modalWrapper.closest(this.options.fogSelector);
-			if(!this.fog.length) throw new Error(errors.noFog);
+			if(!this.fog.length){
+				this.fogParent = $(document.body);
+				var existentFog = this.fogParent.find('> '+this.options.fogSelector);
+				if(existentFog.length){
+					this.fog = existentFog.eq(0);
+				}else{
+					this.fog = $(this.options.fogTemplate);
+					this.fog.appendTo('body');
+				}
+
+				this.fog.append(this.modalWrapper);
+			}else{
+				this.fogParent = this.fog.parent();
+			}
 
 			var attachedInstances = this.fog.data("plugin_" + pluginName + "_attachedInstances");
 			if(!attachedInstances) attachedInstances = [];
 			$.data( this.fog[0], "plugin_" + pluginName + "_attachedInstances", attachedInstances.concat(this) );
 
-			this.fogParent = this.fog.parent();
-//			if(this.fogParent[0].tagName == 'BODY') this.fogParent = $(window);
 		},
 		_setEvents: function () {
 			this.element.on('click.'+pluginName, $.proxy(this._linkClickEvent, this));
@@ -108,23 +120,30 @@
 		open: function(){
 			this.fog.addClass('show');
 			this.modalWrapper.addClass('show');
+			setTimeout($.proxy(function(){
+				this.modalWrapper.addClass('in');
+			}, this), 100);
+
 			if(this.options.hashControl){
 				this._setHash();
 			}
-			this.isOpen = true;
 
-			this.fogParent.on('scroll.'+pluginName, $.proxy(this._cancelScroll, this));
+			this.fogParent.addClass('cancel-scroll');
+			this.isOpen = true;
 		},
 		close: function(){
-			this.fog.removeClass('show');
-			this.modalWrapper.removeClass('show');
+			this.modalWrapper.removeClass('in');
+			setTimeout($.proxy(function(){
+				this.fog.removeClass('show');
+				this.modalWrapper.removeClass('show');
+			}, this), 100);
+
 			if(this.options.hashControl){
 				this._removeHash();
 			}
+
+			this.fogParent.removeClass('cancel-scroll');
 			this.isOpen = false;
-
-			this.fogParent.off('scroll.'+pluginName);
-
 		}
 	};
 

@@ -1,13 +1,15 @@
 .fp-fog{
-	position:fixed;
-    z-index: 99999;
+	position:absolute;
+    z-index: 1040;
 	display: none;
 	top: 0;
 	right: 0;
 	bottom: 0;
 	left: 0;
-    overflow: scroll;
+    overflow: auto;
+    overflow-y: scroll;
 	background: rgba(0,0,0, 0.5);
+    letter-spacing: -10px;
 }
 .fp-fog.show{
 	display: block;
@@ -22,28 +24,41 @@
 	display: inline-block;
 	*display: inline;
 	zoom:1;
-
 	vertical-align: middle;
-}
-
-.fp-fog-inner{
-    height: 100%;
-    overflow: scroll;
+    letter-spacing: -1em;
 }
 
 .fp-modalwrapper{
 	display: none;
 	vertical-align: middle;
-	width: 99%;
+	width: 100%;
 }
+
 .fp-modalwrapper.show{
 	display: inline-block;
 	*display: inline;
 	zoom:1;
+
+    /* Animation */
+    -webkit-transform: translateY(-300px);
+    opacity: 0;
+}
+
+.fp-modalwrapper.show.in{
+    /* Animation */
+    -webkit-transform: translateY(0);
+    opacity: 1;
+
+    -webkit-transition: all 150ms ease;
 }
 
 .fp-modalwrapper .fp-modal{
 	margin: 0 auto;
-	width: 600px;
+	max-width: 600px;
 	background: white;
+    letter-spacing: normal;
+}
+
+.cancel-scroll{
+    overflow: hidden;
 }
