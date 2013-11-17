@@ -28,10 +28,102 @@
         </ul>
       </header>
       <section>
-        <h1>
-<a name="fluid-popin" class="anchor" href="#fluid-popin"><span class="octicon octicon-link"></span></a>fluid-popin</h1>
+        <p>Une popin jQuery flexible, simple d'utilisation et sans positionnement javascript.</p>
 
-<p>jQuery popin system without javascript positioning</p>
+<p>Le fondement de cette modal est de pouvoir se centrer horizontalement et verticalement sans calcul javascript. Pour cela la modal doit être placée dans son fog.</p>
+
+<h2>
+<a name="requirements" class="anchor" href="#requirements"><span class="octicon octicon-link"></span></a>Requirements</h2>
+
+<ul>
+<li>jQuery</li>
+<li>CSS du module</li>
+</ul><h2>
+<a name="exemples" class="anchor" href="#exemples"><span class="octicon octicon-link"></span></a>Exemples</h2>
+
+<h3>
+<a name="avec-un-lien-ouvrant" class="anchor" href="#avec-un-lien-ouvrant"><span class="octicon octicon-link"></span></a>Avec un lien ouvrant</h3>
+
+<p>Voici le cas d'utilisation le plus courant, au click sur le lien la modal s'ouvre.</p>
+
+<pre><code>&lt;a href="#popinId" class="popinOpener"&gt;Open popin&lt;/a&gt;
+&lt;div id="popinId" class="fp-modalwrapper"&gt;
+    &lt;div class="fp-modal"&gt;
+        &lt;p&gt;Contenu de votre popin&lt;/p&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;script&gt;
+    $('.popinOpener').fluidPopin();
+&lt;/script&gt;
+</code></pre>
+
+<h3>
+<a name="sans-lien-ouvrant-en-cours-de-d%C3%A9veloppement" class="anchor" href="#sans-lien-ouvrant-en-cours-de-d%C3%A9veloppement"><span class="octicon octicon-link"></span></a>Sans lien ouvrant (en cours de développement)</h3>
+
+<p>Dans certain cas la modal doit s'ouvrir de manière automatique au chargement de la page. Dans ce cas, déclarez votre module directement sur le modalWrapper.</p>
+
+<pre><code>&lt;div id="popinId" class="fp-modalwrapper autoOpener"&gt;
+    &lt;div class="fp-modal"&gt;
+        &lt;p&gt;Contenu de votre popin&lt;/p&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;script&gt;
+    $('.autoOpener').fluidPopin();
+&lt;/script&gt;
+</code></pre>
+
+<h3>
+<a name="avec-le-contr%C3%B4le-via-le-hash-de-lurl" class="anchor" href="#avec-le-contr%C3%B4le-via-le-hash-de-lurl"><span class="octicon octicon-link"></span></a>Avec le contrôle via le hash de l'url</h3>
+
+<p>Lorsqu'un seul système de modal est mis en place il est peut être intéressant de pouvoir la controller via le hash de l'url
+exemple: hhtp://monsite.fr/payment#mentions va automatique ouvrir la modal des mentions légales. Avec ce mode il est aussi possible de tirer parti de la navigation de votre navigateur (précédent/suivant)</p>
+
+<pre><code>&lt;a href="#popinId" class="popinOpener"&gt;Open popin&lt;/a&gt;
+&lt;div id="popinId" class="fp-modalwrapper"&gt;
+    &lt;div class="fp-modal"&gt;
+        &lt;p&gt;Contenu de votre popin&lt;/p&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;script&gt;
+    $('.popinOpener').fluidPopin({
+        hashControl: true
+    });
+&lt;/script&gt;
+</code></pre>
+
+<h3>
+<a name="d%C3%A9limit%C3%A9e-dans-une-zone" class="anchor" href="#d%C3%A9limit%C3%A9e-dans-une-zone"><span class="octicon octicon-link"></span></a>Délimitée dans une zone</h3>
+
+<p>Dans le cas d'une webapp par exemple il est parfois nécessaire d'ouvrir une modal dans une zone définie. Dans ce cas il suffit simplement de créer le fog dans votre html et d'y insérer votre modal. Ainsi elle ne sera pas déplacée dans un fog créé en bas de page. Cette configuration nécessite que votre zone soit en <code>position: relative;</code></p>
+
+<pre><code>&lt;a href="#popinId" class="popinOpener"&gt;Open popin&lt;/a&gt;
+&lt;div class="maZone"&gt;
+    &lt;div class="fp-fog"&gt;
+        &lt;div id="popinId" class="fp-modalwrapper"&gt;
+            &lt;div class="fp-modal"&gt;
+                &lt;p&gt;Contenu de votre popin&lt;/p&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;script&gt;
+    $('.popinOpener').fluidPopin();
+&lt;/script&gt;
+</code></pre>
+
+<h2>
+<a name="options" class="anchor" href="#options"><span class="octicon octicon-link"></span></a>Options</h2>
+
+<ul>
+<li>hashControl: {boolean} default: <code>false</code>, give open and close control from hash in url bar</li>
+<li>closerSelector: {jQuery selector} default: <code>".fp-close"</code>, define element who can close your modal from the inside</li>
+<li>fogSelector: {jQuery selector} default: <code>".fp-fog"</code>, define fog element</li>
+<li>fogTemplate: {String} default: <code>"&lt;div class="fp-fog"&gt;&lt;/div&gt;"</code>, html to create fog if it doesn't existe</li>
+</ul>
       </section>
       <footer>
         <p>This project is maintained by <a href="https://github.com/hikkyu">hikkyu</a></p>
